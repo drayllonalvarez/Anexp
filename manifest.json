@@ -1,0 +1,28 @@
+{
+  "name": "Anexp by Ayydoc",
+  "short_name": "Anexp",
+  "description": "Anexp by Ayydoc — Consentimiento, Valoración Preanestésica y Registro Transanestésico",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#004E89",
+  "theme_color": "#004E89",
+  "categories": ["medical", "health", "productivity"],
+  "lang": "es-MX",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
