@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Anexp by Ayydoc</title>
+    
+    <!-- PWA META -->
+    <link rel="manifest" href="./manifest.json">
+    <script src="./nube-config.js" onerror="void 0"></script>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Anexp">
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+    <meta name="theme-color" content="#004E89">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #004E89 0%, #006847 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        #protectionScreen {
+            background: white;
+            border-radius: 24px;
+            padding: 48px 36px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .lock-icon {
+            font-size: 64px;
+            line-height: 0;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        h1 {
+            font-size: 26px;
+            color: #004E89;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        
+        p {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        
+        .input-group {
+            margin-bottom: 24px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #004E89;
+            box-shadow: 0 0 0 4px rgba(0,78,137,0.1);
+        }
+        
+        button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #004E89 0%, #006847 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            touch-action: manipulation;
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
+        
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: none;
+            animation: shake 0.4s;
+        }
+        
+        .error.show {
+            display: block;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .footer {
+            margin-top: 24px;
+            font-size: 12px;
+            color: #888;
+        }
+        
+        #appContainer {
+            display: none;
+            width: 100%;
+            height: 100vh;
+        }
+        
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #004E89;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999999;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .loading.show {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loadingScreen">
+        <div style="width:96px;height:96px;background:#fff;border-radius:24px;padding:12px;box-sizing:border-box;box-shadow:0 8px 30px rgba(0,0,0,.3)"><svg width="72" height="72" xmlns="http://www.w3.org/2000/svg" viewBox="28 24 144 144" fill="none" aria-label="Anexp"><path stroke="#1E3A8A" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" d="M 40,150 Q 80,140 100,40 Q 120,140 160,150"/><path stroke="#1E3A8A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" d="M 55,95 Q 100,110 145,95"/><path stroke="#1E3A8A" stroke-width="3.5" stroke-linecap="round" d="M 80,106 A 20 20 0 0 0 120,106"/><path fill="#1E3A8A" d="M 88,106 A 12 12 0 0 0 112,106 Z"/><path stroke="#1E3A8A" stroke-width="3.5" stroke-linecap="round" d="M 100,126 A 14 14 0 0 0 100,154"/></svg></div>
+        <div class="spinner"></div>
+        <div class="loading-text">Cargando aplicación...</div>
+    </div>
+    
+    <div id="appContainer"></div>
+    
+    <script>
+        // Disable right-click and developer shortcuts
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Cmd+Option+I
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+                (e.ctrlKey && e.key === 'u') ||
+                (e.metaKey && e.altKey && e.key === 'i')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        function loadApplication() {
+            // Load the actual app content from separate file
+            fetch('./app-content.html?v='+Date.now(),{cache:'no-store'})
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('loadingScreen').classList.remove('show');
+                    document.getElementById('appContainer').style.display = 'block';
+                    document.getElementById('appContainer').innerHTML = html;
+                    
+                    // Execute scripts in the loaded content
+                    const scripts = document.getElementById('appContainer').querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript);
+                    });
+                })
+                .catch(error => {
+                    alert('Error al cargar la aplicación. Verifica tu conexión.');
+                    location.reload();
+                });
+        }
+        
+        // Arranque directo: el acceso lo controlan el correo y la contraseña de cada usuario
+        window.addEventListener('load', () => {
+            document.getElementById('loadingScreen').classList.add('show');
+            loadApplication();
+        });
+    </script>
+</body>
+</html>
